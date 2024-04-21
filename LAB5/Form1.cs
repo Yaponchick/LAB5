@@ -7,11 +7,15 @@ namespace LAB5
         List<BaseObject> objects = new();
         Player player; //Поле для игрока
         Marker marker;
+        MyCircle myCircle;
+        MyCircle myCircle2;
+        int score = 0;
 
 
         public Form1()
         {
             InitializeComponent();
+
 
             player = new Player(pbMain.Width / 2, pbMain.Height / 2, 0);
 
@@ -27,14 +31,29 @@ namespace LAB5
                 marker = null;
             };
 
+          
+
             marker = new Marker(pbMain.Width / 2 + 50, pbMain.Height / 2 + 50, 0);
+            myCircle = new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0);
+            myCircle = new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0);
+            myCircle2 = new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0);
+           
+            myCircle.OnTimeExpired += (circle) =>
+            {
+                objects.Remove(circle);
+            };
+            myCircle2.OnTimeExpired += (circle) =>
+            {
+                objects.Remove(circle);
+            };
 
             objects.Add(marker);
             objects.Add(player);
+            objects.Add(myCircle);
+            objects.Add(myCircle2);
 
-            objects.Add(new MyRectangle(50, 50, 0));
-            objects.Add(new MyRectangle(100, 100, 45));
         }
+
 
         private void pbMain_Paint(object sender, PaintEventArgs e)
         {
@@ -51,6 +70,12 @@ namespace LAB5
                 {
                     player.Overlap(obj);
                     obj.Overlap(player);
+
+                    if (obj is MyCircle)
+                    {
+                        score++;
+                        ScoreTXT.Text = score.ToString("Очки : " + score); // Обновляем текстовое поле с количеством очков
+                    }
                 }
             }
 
@@ -95,6 +120,16 @@ namespace LAB5
         private void timer1_Tick(object sender, EventArgs e)
         {
             pbMain.Invalidate();
+            // Обновление времени для каждого круга
+            for (int i = objects.Count - 1; i >= 0; i--)
+            {
+                var obj = objects[i];
+                if (obj is MyCircle)
+                {
+                    ((MyCircle)obj).Tick();
+                }
+            }
+
         }
 
         private void pbMain_MouseClick(object sender, MouseEventArgs e)
@@ -110,5 +145,7 @@ namespace LAB5
             marker.X = e.X;
             marker.Y = e.Y;
         }
+
+
     }
 }           

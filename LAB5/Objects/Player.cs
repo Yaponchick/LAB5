@@ -16,7 +16,7 @@ namespace LAB5.Objects
         {
             //это конструктор
         }
-
+        
         public override void Render(Graphics g)
         {
             g.FillEllipse(

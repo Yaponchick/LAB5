@@ -32,14 +32,15 @@
             pbMain = new PictureBox();
             timer1 = new System.Windows.Forms.Timer(components);
             txtLog = new RichTextBox();
+            ScoreTXT = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pbMain).BeginInit();
             SuspendLayout();
             // 
             // pbMain
             // 
-            pbMain.Location = new Point(12, 12);
+            pbMain.Location = new Point(31, 12);
             pbMain.Name = "pbMain";
-            pbMain.Size = new Size(762, 426);
+            pbMain.Size = new Size(743, 410);
             pbMain.TabIndex = 0;
             pbMain.TabStop = false;
             pbMain.Paint += pbMain_Paint;
@@ -59,17 +60,27 @@
             txtLog.TabIndex = 1;
             txtLog.Text = "";
             // 
+            // ScoreTXT
+            // 
+            ScoreTXT.Location = new Point(638, 32);
+            ScoreTXT.Name = "ScoreTXT";
+            ScoreTXT.Size = new Size(125, 27);
+            ScoreTXT.TabIndex = 2;
+            ScoreTXT.Text = "Очки : ";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1076, 450);
+            Controls.Add(ScoreTXT);
             Controls.Add(txtLog);
             Controls.Add(pbMain);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)pbMain).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -77,5 +88,6 @@
         private PictureBox pbMain;
         private System.Windows.Forms.Timer timer1;
         private RichTextBox txtLog;
+        private TextBox ScoreTXT;
     }
 }
