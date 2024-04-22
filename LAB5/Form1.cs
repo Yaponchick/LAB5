@@ -9,6 +9,8 @@ namespace LAB5
         Marker marker;
         MyCircle myCircle;
         MyCircle myCircle2;
+        RedCircle redCircle;
+
         int score = 0;
 
 
@@ -18,6 +20,9 @@ namespace LAB5
 
 
             player = new Player(pbMain.Width / 2, pbMain.Height / 2, 0);
+
+            redCircle = new RedCircle(100, 100, 0);
+            redCircle.OnPlayerOverlap += RedCircle_PlayerOverlap;
 
             // Реакция на пересечение
             player.OnOverlap += (p, obj) =>
@@ -35,7 +40,6 @@ namespace LAB5
 
             marker = new Marker(pbMain.Width / 2 + 50, pbMain.Height / 2 + 50, 0);
             myCircle = new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0);
-            myCircle = new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0);
             myCircle2 = new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0);
            
             myCircle.OnTimeExpired += (circle) =>
@@ -51,8 +55,21 @@ namespace LAB5
             objects.Add(player);
             objects.Add(myCircle);
             objects.Add(myCircle2);
+            objects.Add(redCircle);
+
+
 
         }
+        private void RedCircle_PlayerOverlap(RedCircle circle)
+        {
+            score--; // Уменьшаем количество очков
+            ScoreTXT.Text = "Очки: " + score; // Обновляем текстовое поле с количеством очков
+            circle.Reset(); // Сбрасываем размер и позицию красного круга
+            circle.IncreaseSize(); // Увеличиваем размер красного круга
+            pbMain.Invalidate(); // Перерисовываем элемент управления
+        }
+
+
 
 
         private void pbMain_Paint(object sender, PaintEventArgs e)
@@ -116,21 +133,26 @@ namespace LAB5
             player.Y += player.vY;
 
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             pbMain.Invalidate();
-            // Обновление времени для каждого круга
-            for (int i = objects.Count - 1; i >= 0; i--)
+
+            // Обновляем время для каждого круга
+            foreach (var obj in objects.OfType<MyCircle>())
             {
-                var obj = objects[i];
-                if (obj is MyCircle)
-                {
-                    ((MyCircle)obj).Tick();
-                }
+                obj.Tick();
             }
 
+            redCircle.IncreaseSize();
+
+            // Обновляем время для каждого круга
+            foreach (var obj in objects.OfType<MyCircle>())
+            {
+                obj.Tick();
+            }
         }
+
+
 
         private void pbMain_MouseClick(object sender, MouseEventArgs e)
         {

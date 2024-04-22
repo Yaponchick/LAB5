@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LAB5.Objects
+namespace LAB5.Objects //Комментарии + Пределать цвета
 {
     class Player : BaseObject
     {
@@ -16,23 +16,36 @@ namespace LAB5.Objects
         {
             //это конструктор
         }
-        
+
         public override void Render(Graphics g)
         {
-            g.FillEllipse(
-                new SolidBrush(Color.DeepSkyBlue),
-                -15, -15,
-                30, 30
-            );
+            // Цвета флага России
+            Color white = Color.White;
+            Color blue = Color.FromArgb(0, 56, 168); // RGB: 0, 56, 168
+            Color red = Color.Red;
 
-            g.DrawEllipse(
-                new Pen(Color.Black, 2),
-                -15, -15,
-                30, 30
-            );
+            // Создаем кисти для заливки в цвета флага России
+            SolidBrush whiteBrush = new SolidBrush(white);
+            SolidBrush blueBrush = new SolidBrush(blue);
+            SolidBrush redBrush = new SolidBrush(red);
 
+            // Заливаем первую треть шарика белым цветом
+            g.FillRectangle(whiteBrush, -15, -15, 30, 10);
+
+            // Заливаем вторую треть шарика синим цветом
+            g.FillRectangle(blueBrush, -15, -5, 30, 10);
+
+            // Заливаем третью треть шарика красным цветом
+            g.FillRectangle(redBrush, -15, 5, 30, 10);
+
+            // Рисуем контур шарика
+            g.DrawEllipse(new Pen(Color.Black, 2), -15, -15, 30, 30);
+
+            // Рисуем линию, чтобы указать направление игрока
             g.DrawLine(new Pen(Color.Black, 2), 0, 0, 25, 0);
         }
+
+
 
         public override GraphicsPath GetGraphicsPath()
         {

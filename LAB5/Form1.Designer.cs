@@ -38,7 +38,7 @@
             // 
             // pbMain
             // 
-            pbMain.Location = new Point(31, 12);
+            pbMain.Location = new Point(12, 12);
             pbMain.Name = "pbMain";
             pbMain.Size = new Size(743, 410);
             pbMain.TabIndex = 0;
@@ -54,15 +54,15 @@
             // 
             // txtLog
             // 
-            txtLog.Location = new Point(780, 12);
+            txtLog.Location = new Point(761, 12);
             txtLog.Name = "txtLog";
-            txtLog.Size = new Size(284, 426);
+            txtLog.Size = new Size(284, 410);
             txtLog.TabIndex = 1;
             txtLog.Text = "";
             // 
             // ScoreTXT
             // 
-            ScoreTXT.Location = new Point(638, 32);
+            ScoreTXT.Location = new Point(612, 28);
             ScoreTXT.Name = "ScoreTXT";
             ScoreTXT.Size = new Size(125, 27);
             ScoreTXT.TabIndex = 2;
@@ -72,12 +72,12 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1076, 450);
+            ClientSize = new Size(1057, 434);
             Controls.Add(ScoreTXT);
             Controls.Add(txtLog);
             Controls.Add(pbMain);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Игрульки";
             ((System.ComponentModel.ISupportInitialize)pbMain).EndInit();
             ResumeLayout(false);
             PerformLayout();
