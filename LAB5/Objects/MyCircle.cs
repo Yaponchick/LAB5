@@ -8,17 +8,18 @@ namespace LAB5.Objects
     {
         private int timeLeft; // Переменная для отслеживания времени
         private const int maxTime = 450; // Максимальное время
-        public event Action<MyCircle> OnTimeExpired;
+        public event Action<MyCircle> OnTimeExpired; // Событие, которое возникает при истечении времени таймера 
 
 
         public MyCircle(float x, float y, float angle) : base(x, y, angle)
         {
         }
 
+        // Отображает круг 
         public override void Render(Graphics g)
         {
             // Вычисляем текущий размер круга
-            float circleSize = 50 * ((float)timeLeft / maxTime);
+            float circleSize = 50 * ((float)timeLeft / maxTime); // Содержит текущий размер круга
 
             // Отрисовываем круг
             g.FillEllipse(new SolidBrush(Color.Aqua), -circleSize / 2, -circleSize / 2, circleSize, circleSize);
@@ -33,29 +34,30 @@ namespace LAB5.Objects
             );
         }
 
+        // Метод для получения графического пути, представляющего круг
         public override GraphicsPath GetGraphicsPath()
         {
-            // Создаем графический путь для круга
-            var path = new GraphicsPath();
-            float circleSize = 20 * ((float)timeLeft / maxTime); // Вычисляем текущий размер круга
+            var path = new GraphicsPath(); // Используется для создания маркера
+            float circleSize = 20 * ((float)timeLeft / maxTime); // Содержит текущий размер круга
             path.AddEllipse(new RectangleF(-circleSize / 2, -circleSize / 2, circleSize, circleSize));
             return path;
         }
 
-
+        // Обрабатывает пересечение объекта MyCircle с другим объектом
         public override void Overlap(BaseObject obj)
         {
             base.Overlap(obj);
             if (obj is Player)
             {
                 // Перемещаем объект на новое место
-                Random rnd = new Random();
+                Random rnd = new Random(); // Объект для генерации случайных чисел
                 X = rnd.Next(0, 400);
                 Y = rnd.Next(0, 400);
                 ResetTimer(); // Перезапуск таймера при касании игроком
             }
         }
-        // Отсчет времени
+
+        // Выполняет отсчет времени жизни круга
         public void Tick()
         {
             timeLeft--;
@@ -65,15 +67,17 @@ namespace LAB5.Objects
                 OverlapTick();
             }
         }
+
         // Пересоздание кружка при истечении времени
         private void OverlapTick()
         {
-            Random rnd = new Random();
+            Random rnd = new Random(); // Объект для генерации случайных чисел
             X = rnd.Next(0, 700);
             Y = rnd.Next(100, 350);
             ResetTimer(); // Перезапуск таймера
         }
-        //Рестарт времени
+
+        // Рестарт времени
         private void ResetTimer()
         {
             timeLeft = maxTime;

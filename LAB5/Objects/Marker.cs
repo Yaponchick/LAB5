@@ -13,17 +13,17 @@ namespace LAB5.Objects
         {
 
         }
-
+        // Отображает маркер 
         public override void Render(Graphics g)
         {
             g.FillEllipse(new SolidBrush(Color.Red), -3, -3, 6, 6);
             g.DrawEllipse(new Pen(Color.Red, 2), -6, -6, 12, 12);
             g.DrawEllipse(new Pen(Color.Red, 2), -10, -10, 20, 20);
         }
-
+        // Возвращает объект GraphicsPath, представляющий форму маркера
         public override GraphicsPath GetGraphicsPath()
         {
-            var patch = base.GetGraphicsPath();
+            var patch = base.GetGraphicsPath(); // Используется для создания маркера
             patch.AddEllipse(-3, -3, 6, 6);
             return patch;
         }

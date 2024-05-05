@@ -4,25 +4,22 @@ namespace LAB5
 {
     public partial class Form1 : Form
     {
-        List<BaseObject> objects = new();
+        List<BaseObject> objects = new(); // Список объектов
         Player player; //Поле для игрока
-        Marker marker;
-        MyCircle myCircle;
-        MyCircle myCircle2;
-        RedCircle redCircle;
-
-        int score = 0;
-
+        Marker marker; // Поле для маркера
+        MyCircle myCircle; // Поле для первого круга
+        RedCircle redCircle; // Поле для красного круга
+        int score = 0; // Счет очков
 
         public Form1()
         {
             InitializeComponent();
 
-
             player = new Player(pbMain.Width / 2, pbMain.Height / 2, 0);
 
+            // Красный круг
             redCircle = new RedCircle(100, 100, 0);
-            redCircle.OnPlayerOverlap += RedCircle_PlayerOverlap;
+            redCircle.PlayerOverlap += RedCircle_PlayerOverlap;
 
             // Реакция на пересечение
             player.OnOverlap += (p, obj) =>
@@ -35,43 +32,27 @@ namespace LAB5
                 objects.Remove(m);
                 marker = null;
             };
-
           
-
+            // добавляем маркер и круг
             marker = new Marker(pbMain.Width / 2 + 50, pbMain.Height / 2 + 50, 0);
             myCircle = new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0);
-            myCircle2 = new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0);
-           
-            myCircle.OnTimeExpired += (circle) =>
-            {
-                objects.Remove(circle);
-            };
-            myCircle2.OnTimeExpired += (circle) =>
-            {
-                objects.Remove(circle);
-            };
 
             objects.Add(marker);
             objects.Add(player);
             objects.Add(myCircle);
-            objects.Add(myCircle2);
+            objects.Add(new MyCircle(pbMain.Width / 2 + 100, pbMain.Height / 2 + 100, 0));
             objects.Add(redCircle);
-
-
-
         }
+        // Обработчик события пересечения игрока с красным кругом.
         private void RedCircle_PlayerOverlap(RedCircle circle)
         {
             score--; // Уменьшаем количество очков
             ScoreTXT.Text = "Очки: " + score; // Обновляем текстовое поле с количеством очков
             circle.Reset(); // Сбрасываем размер и позицию красного круга
             circle.IncreaseSize(); // Увеличиваем размер красного круга
-            pbMain.Invalidate(); // Перерисовываем элемент управления
         }
 
-
-
-
+        // Обработчик события отрисовки элемента
         private void pbMain_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
@@ -104,13 +85,16 @@ namespace LAB5
             }
         }
 
-        //Метод для перемещения игрока
+        // Обновляет позицию и скорость игрока в соответствии с положением маркера
         private void updatePlayer()
         {
             if (marker != null)
             {
+                // Вычисляет разницу между координатами по оси X маркера и игрока
                 float dx = marker.X - player.X;
+                // Вычисляет разницу между координатами по оси Y маркера и игрока
                 float dy = marker.Y - player.Y;
+                // Содержит вычисление длины вектора между маркером и игроком
                 float length = MathF.Sqrt(dx * dx + dy * dy);
                 dx /= length;
                 dy /= length;
@@ -131,18 +115,12 @@ namespace LAB5
             // пересчет позиция игрока с помощью вектора скорости
             player.X += player.vX;
             player.Y += player.vY;
-
         }
+
+        //Обработчик события таймера
         private void timer1_Tick(object sender, EventArgs e)
         {
             pbMain.Invalidate();
-
-            // Обновляем время для каждого круга
-            foreach (var obj in objects.OfType<MyCircle>())
-            {
-                obj.Tick();
-            }
-
             redCircle.IncreaseSize();
 
             // Обновляем время для каждого круга
@@ -152,22 +130,18 @@ namespace LAB5
             }
         }
 
-
-
+        // Обработчик события клика мыши по элементу
         private void pbMain_MouseClick(object sender, MouseEventArgs e)
         {
             // тут добавил создание маркера по клику если он еще не создан
             if (marker == null)
             {
                 marker = new Marker(0, 0, 0);
-                objects.Add(marker); // и главное не забыть пололжить в objects
+                objects.Add(marker); 
             }
 
-            // а это так и остается
             marker.X = e.X;
             marker.Y = e.Y;
         }
-
-
     }
 }           

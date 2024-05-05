@@ -9,40 +9,42 @@ namespace LAB5.Objects
         private float size = 20; // Начальный размер круга
         private const float maxSize = 1000; // Максимальный размер круга
 
-        public event Action<RedCircle> OnPlayerOverlap;
+        public  Action<RedCircle> PlayerOverlap; // Событие, которое возникает при пересечении с кругом
 
         public RedCircle(float x, float y, float angle) : base(x, y, angle)
         {
         }
 
+        // Отображает круг 
         public override void Render(Graphics g)
         {
-            // Создаем красный цвет с измененным альфа-каналом (например, 50, чтобы сделать его немного прозрачным)
-            Color redWithTransparency = Color.FromArgb(90, Color.Crimson); 
+            Color Transparency = Color.FromArgb(90, Color.Crimson); 
             
-            // Отрисовываем круг с измененным цветом
-            g.FillEllipse(new SolidBrush(redWithTransparency), -size / 2, -size / 2, size, size);
+            // Отрисовываем круг
+            g.FillEllipse(new SolidBrush(Transparency), -size / 2, -size / 2, size, size);
             g.DrawEllipse(new Pen(Color.Black, 2), -size / 2, -size / 2, size, size);
         }
 
-
+        // Метод для получения графического размера, представляющего круг
         public override GraphicsPath GetGraphicsPath()
         {
-            var path = new GraphicsPath();
+            var path = new GraphicsPath(); // Графический путь для круга
             path.AddEllipse(new RectangleF(-size / 2, -size / 2, size, size));
             return path;
         }
 
+        // Обрабатывает пересечение объекта RedCircle с другим объектом
         public override void Overlap(BaseObject obj)
         {
             base.Overlap(obj);
             if (obj is Player)
             {
                 // Генерируем событие пересечения с игроком
-                OnPlayerOverlap?.Invoke(this);
+                PlayerOverlap?.Invoke(this);
             }
         }
 
+        // Увеличивает размер красного круга на 2 пикселя и проверяет, не превышен ли максимальный размер
         public void IncreaseSize()
         {
             // Увеличиваем размер круга на 2 пикселя
@@ -52,15 +54,13 @@ namespace LAB5.Objects
             {
                 size = maxSize;
             }
-            Console.WriteLine($"Circle size: {size}"); // Отладочный вывод
         }
-
 
         // Метод для сброса размера и позиции круга
         public void Reset()
         {
             size = 20; // Возвращаем начальный размер круга
-            Random rnd = new Random();
+            Random rnd = new Random(); // Объект для генерации случайных чисел
             X = rnd.Next(0, 700);
             Y = rnd.Next(100, 350);
         }
