@@ -28,8 +28,8 @@ namespace LAB5.Objects
         public Matrix GetTransform()
         {
             var matrix = new Matrix(); // Создание и инициализация матрицы трансформации для объекта
-            matrix.Translate(X, Y); // смещаем ее в пространстве
-            matrix.Rotate(Angle);
+            matrix.Translate(X, Y); // Метод применяет смещение к объекту, перемещая его на определенное расстояние
+            matrix.Rotate(Angle); //  применяет поворот к объекту относительно некоторой точки или центра
 
             return matrix;
         }

@@ -8,8 +8,7 @@ namespace LAB5.Objects
     {
         private int timeLeft; // Переменная для отслеживания времени
         private const int maxTime = 450; // Максимальное время
-        public event Action<MyCircle> OnTimeExpired; // Событие, которое возникает при истечении времени таймера 
-
+        public Action<MyCircle> OnTimeExpired; // Событие, которое возникает при истечении времени таймера 
 
         public MyCircle(float x, float y, float angle) : base(x, y, angle)
         {
